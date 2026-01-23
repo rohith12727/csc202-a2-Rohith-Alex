@@ -38,7 +38,7 @@ def array_to_row(data: list[str]) -> Rows:
     
 file: TypeAlias = Literal["sample-file.csv", "some_ghg_emissions.csv"]
 #parses csv file and returns all data in a row collectively in a LinkedList
-def read_csv_lines(filename: file)-> list[list[str]]:
+def read_csv_lines(filename: file)-> LinkedList:
     rows: list[list[str]] = []
 
     with open(filename, newline="") as csvfile:
@@ -49,7 +49,8 @@ def read_csv_lines(filename: file)-> list[list[str]]:
         for fields in reader:
             rows.append(fields)
 
-    return rows
+    for item in rows: 
+        return array_to_row(item)
 
 
 #returns the length of a LinkedList of row objects
