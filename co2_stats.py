@@ -114,13 +114,11 @@ def traverse(row : Rows, field : Fields) -> Union[float, str, int, None]:
     elif field == "total_co2_emissions_excluding_lucf_per_capita":
         return row.total_emissions_per_capita
 
-
 # not all fields are comparable with all of the comparison types
 # for example one country cannot ge greater or less than another,
 # but you can check if they are equal (the same)
 def filter(ll : LinkedList, field : Fields, type : Types, val : Union[int, str, float]) -> Optional[RLNode]:
     # first traverse through all data points and ignore ones with no field
-
 
     match ll:
         case None:
@@ -134,17 +132,20 @@ def filter(ll : LinkedList, field : Fields, type : Types, val : Union[int, str, 
                         return RLNode(f, filter(r, field, type, val))
                     else:
                         return filter(r, field, type, val)
+
                 elif type == "equal":
                     if str(traverse(f, field)) == str(val):
                         return RLNode(f, filter(r, field, type, val))
                     else:
                         return filter(r, field, type, val)
+
                 elif type == "greater_than":
                     if float(traverse(f, field)) > float(val):
                         return RLNode(f, filter(r, field, type, val))
                     else:
                         return filter(r, field, type, val)
 
+# amount of countries in the dataset
 def answer_1(ll: LinkedList) -> int:
     if ll is None:
         return 0
@@ -152,12 +153,13 @@ def answer_1(ll: LinkedList) -> int:
     filtered = filter(ll, "year", "equal", some_year)
     return listlen(filtered)
 
+# years represented for mexico
 def answer_2(ll: LinkedList) -> LinkedList:
     mexico_rows = filter(ll, "country", "equal", "Mexico")
     _ = listlen(mexico_rows)
     return mexico_rows
 
-
+# countries with higher per-capita total greenhouse emissions than 1990 US
 def answer_3(ll: LinkedList) -> LinkedList:
     rows_1990 = filter(ll, "year", "equal", 1990)
 
@@ -176,7 +178,7 @@ def answer_3(ll: LinkedList) -> LinkedList:
     _ = listlen(higher_than_us)
     return higher_than_us
 
-
+# countries with higher per-capita total greenhouse emissions than 2020 US
 def answer_4(ll: LinkedList) -> LinkedList:
     rows_2020 = filter(ll, "year", "equal", 2020)
 
@@ -197,18 +199,25 @@ def answer_4(ll: LinkedList) -> LinkedList:
     _ = listlen(higher_than_us)
     return higher_than_us
 
+# population of Luxembourg
 def answer_5(ll : LinkedList) -> int:
     lux = filter(ll, "country", "equal", "Luxembourg")
     lux_2014 = filter(lux, "year", "equal", 2014)
-    return (lux_2014.first.total_emissions / lux_2014.first.total_emissions_per_capita) * 1_000_000
+    lux_2014_emissions = lux_2014.first.total_emissions
+    per_capita = lux_2014.first.total_emissions_per_capita
+    return (lux_2014_emissions / per_capita) * 1_000_000
 
+# increase in total electricity and heat emissions in China
 def answer_6(ll : LinkedList) -> float:
     china = filter(ll, "country", 'equal', 'China')
     china_1990 = filter(china, "year", 'equal', 1990)
     china_2020 = filter(china, 'year', 'equal', 2020)
-    pc = (china_2020.first.electricity_and_heat - china_1990.first.electricity_and_heat) / china_1990.first.electricity_and_heat
+    china_2020_eh = china_2020.first.electricity_and_heat
+    china_1990_eh = china_1990.first.electricity_and_heat
+    pc = (china_2020_eh - china_1990_eh) / china_1990_eh
     return 1 + pc
 
+# China's 2070 electricity and heat emissions
 def answer_7(ll : LinkedList) -> float:
     growth_rate = answer_6(ll)
     china = filter(ll, "country", 'equal', 'China')
