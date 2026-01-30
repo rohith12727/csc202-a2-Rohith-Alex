@@ -145,7 +145,57 @@ def filter(ll : LinkedList, field : Fields, type : Types, val : Union[int, str, 
                     else:
                         return filter(r, field, type, val)
 
-                        
+def answer_1(ll: LinkedList) -> int:
+    if ll is None:
+        return 0
+    some_year = ll.first.country_year
+    filtered = filter(ll, "year", "equal", some_year)
+    return listlen(filtered)
+
+def answer_2(ll: LinkedList) -> LinkedList:
+    mexico_rows = filter(ll, "country", "equal", "Mexico")
+    _ = listlen(mexico_rows)
+    return mexico_rows
+
+
+def answer_3(ll: LinkedList) -> LinkedList:
+    rows_1990 = filter(ll, "year", "equal", 1990)
+
+    us_1990_ll = filter(rows_1990, "country", "equal", "United States")
+    if us_1990_ll is None:
+        return None
+    us_1990_pc = us_1990_ll.first.total_emissions_per_capita
+    if us_1990_pc is None:
+        return None
+    higher_than_us = filter(
+        rows_1990,
+        "total_co2_emissions_excluding_lucf_per_capita",
+        "greater_than",
+        us_1990_pc
+    )
+    _ = listlen(higher_than_us)
+    return higher_than_us
+
+
+def answer_4(ll: LinkedList) -> LinkedList:
+    rows_2020 = filter(ll, "year", "equal", 2020)
+
+    us_2020_ll = filter(rows_2020, "country", "equal", "United States")
+    if us_2020_ll is None:
+        return None
+
+    us_2020_pc = us_2020_ll.first.total_emissions_per_capita
+    if us_2020_pc is None:
+        return None
+
+    higher_than_us = filter(
+        rows_2020,
+        "total_co2_emissions_excluding_lucf_per_capita",
+        "greater_than",
+        us_2020_pc
+    )
+    _ = listlen(higher_than_us)
+    return higher_than_us
 
 
 
