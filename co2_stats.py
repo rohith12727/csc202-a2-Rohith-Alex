@@ -126,7 +126,7 @@ def filter(ll : LinkedList, field : Fields, type : Types, val : Union[int, str, 
         case None:
             return None
         case RLNode(f, r):
-            if traverse(f, field) == "":
+            if traverse(f, field) == None:
                 return filter(r, field, type, val)
             else:
                 if type == "less_than":
@@ -200,7 +200,7 @@ def answer_4(ll: LinkedList) -> LinkedList:
 def answer_5(ll : LinkedList) -> int:
     lux = filter(ll, "country", "equal", "Luxembourg")
     lux_2014 = filter(lux, "year", "equal", 2014)
-    return lux_2014.first.total_emissions / lux_2014.first.total_emissions_per_capita
+    return (lux_2014.first.total_emissions / lux_2014.first.total_emissions_per_capita) * 1_000_000
 
 def answer_6(ll : LinkedList) -> float:
     china = filter(ll, "country", 'equal', 'China')
@@ -213,7 +213,7 @@ def answer_7(ll : LinkedList) -> float:
     growth_rate = answer_6(ll)
     china = filter(ll, "country", 'equal', 'China')
     china_2020 = filter(china, 'year', 'equal', 2020)
-    final_eh = china_2020.first.electricity_and_heat * (growth_rate) ** 50
+    final_eh = china_2020.first.electricity_and_heat * (growth_rate) ** (50/30)
 
 
 sample_ll: LinkedList = RLNode(Rows("1", 2000, None, None, None, None, None, None), 
