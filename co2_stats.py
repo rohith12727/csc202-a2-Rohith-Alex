@@ -302,5 +302,9 @@ class Tests(unittest.TestCase):
 
         self.assertEqual(actual_rows, expected_rows)
 
+    def test_traverse(self):
+        lith = Rows('Lithuania',2003,5.24,1.5102245,10.94,3.1530259,11.23,3.2366068)
+        self.assertEqual(traverse(lith, "year"), 2003)
+
 if (__name__ == '__main__'):
     unittest.main()
