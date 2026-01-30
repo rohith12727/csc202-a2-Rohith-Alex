@@ -197,6 +197,23 @@ def answer_4(ll: LinkedList) -> LinkedList:
     _ = listlen(higher_than_us)
     return higher_than_us
 
+def answer_5(ll : LinkedList) -> int:
+    lux = filter(ll, "country", "equal", "Luxembourg")
+    lux_2014 = filter(lux, "year", "equal", 2014)
+    return lux_2014.first.total_emissions / lux_2014.first.total_emissions_per_capita
+
+def answer_6(ll : LinkedList) -> float:
+    china = filter(ll, "country", 'equal', 'China')
+    china_1990 = filter(china, "year", 'equal', 1990)
+    china_2020 = filter(china, 'year', 'equal', 2020)
+    pc = (china_2020.first.electricity_and_heat - china_1990.first.electricity_and_heat) / china_1990.first.electricity_and_heat
+    return 1 + pc
+
+def answer_7(ll : LinkedList) -> float:
+    growth_rate = answer_6(ll)
+    china = filter(ll, "country", 'equal', 'China')
+    china_2020 = filter(china, 'year', 'equal', 2020)
+    final_eh = china_2020.first.electricity_and_heat * (growth_rate) ** 50
 
 
 sample_ll: LinkedList = RLNode(Rows("1", 2000, None, None, None, None, None, None), 
@@ -254,16 +271,16 @@ class Tests(unittest.TestCase):
 
     def test_read_csv_lines(self):
         expected_rows: list[Rows] = [
-            Rows('Lithuania', 2003, 5.24, 1.5102245, 10.94, 3.1530259, 11.23, 3.2366068),
-            Rows('Lithuania', 2002, 5.33, 1.5160139, 10.93, 3.108824, 11.22, 3.1913087),
-            Rows('Lithuania', 2001, 5.53, 1.5533075, 10.87, 3.0532465, 11.16, 3.1347039),
-            Rows('Lithuania', 2000, 5.07, 1.4084746, 10.22, 2.8391736, 10.52, 2.9225154),
-            Rows('Lithuania', 1999, 6.05, 1.6648555, 11.9, 3.2746744, 12.25, 3.3709884),
-            Rows('Lithuania', 1998, 7.49, 2.0433695, 14.29, 3.8984983, 14.71, 4.0130796),
-            Rows('Lithuania', 1997, 6.65, 1.7997795, 13.56, 3.6699264, 13.92, 3.767358),
-            Rows('Lithuania', 1996, 7.11, 1.9102515, 13.92, 3.7399015, 14.24, 3.8258765),
-            Rows('Lithuania', 1995, 6.41, 1.710579, 13.44, 3.586612, 13.75, 3.669339),
             Rows('Lithuania', 1994, 7.27, 1.9281462, 14.44, 3.8297703, 14.82, 3.930554),
+            Rows('Lithuania', 1995, 6.41, 1.710579, 13.44, 3.586612, 13.75, 3.669339),
+            Rows('Lithuania', 1996, 7.11, 1.9102515, 13.92, 3.7399015, 14.24, 3.8258765),
+            Rows('Lithuania', 1997, 6.65, 1.7997795, 13.56, 3.6699264, 13.92, 3.767358),
+            Rows('Lithuania', 1998, 7.49, 2.0433695, 14.29, 3.8984983, 14.71, 4.0130796),
+            Rows('Lithuania', 1999, 6.05, 1.6648555, 11.9, 3.2746744, 12.25, 3.3709884),
+            Rows('Lithuania', 2000, 5.07, 1.4084746, 10.22, 2.8391736, 10.52, 2.9225154),
+            Rows('Lithuania', 2001, 5.53, 1.5533075, 10.87, 3.0532465, 11.16, 3.1347039),
+            Rows('Lithuania', 2002, 5.33, 1.5160139, 10.93, 3.108824, 11.22, 3.1913087),
+            Rows('Lithuania', 2003, 5.24, 1.5102245, 10.94, 3.1530259, 11.23, 3.2366068)
         ]
 
         actual_rows: list[Rows] = []
